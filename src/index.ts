@@ -1,4 +1,5 @@
 import express from "express";
+import routes from "./routes";
 import { connectDB } from "./config/database";
 import { config } from "dotenv";
 
@@ -9,9 +10,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+app.use("/api/v1", routes);
+
 connectDB()
   .then(() => {
     console.log("Connected to DB.");
