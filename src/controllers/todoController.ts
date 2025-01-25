@@ -5,6 +5,7 @@ import { validateTodoData, validateTodoUpdateData } from "../utils/validation";
 import { NotFoundError, UnauthorizedError } from "../utils/errors";
 import { CommonResponse } from "../utils/commonResponse";
 import todoService from "../services/todoService";
+import {StatusCodes} from "http-status-codes";
 
 export const createTodo: RequestHandler = asyncHandler(async (req: IUserRequest, res: Response): Promise<any> => {
     validateTodoData(req.body);
@@ -17,7 +18,7 @@ export const createTodo: RequestHandler = asyncHandler(async (req: IUserRequest,
 
     const todo = await todoService.createTodo(title, description, parsedDate, userId);
 
-    CommonResponse.success(res, todo, "Todo created successfully");
+    CommonResponse.success(res, todo, "Todo created successfully", StatusCodes.CREATED);
 });
 
 export const getTodo: RequestHandler = asyncHandler(async (req: IUserRequest, res: Response): Promise<any> => {

@@ -4,6 +4,7 @@ import { BadRequestError, UnauthorizedError } from "../utils/errors";
 import { CommonResponse } from "../utils/commonResponse";
 import { validateLoginData, validateSignUpData } from "../utils/validation";
 import asyncHandler from "../utils/asyncHandler";
+import {StatusCodes} from "http-status-codes";
 
 export const register: RequestHandler = asyncHandler(async (req: Request, res: Response): Promise<any> => {
     validateSignUpData(req.body);
@@ -16,7 +17,7 @@ export const register: RequestHandler = asyncHandler(async (req: Request, res: R
     const createdUser = await createUser(email, password);
     const userData = createdUser.getUserWithoutSensitiveData();
 
-    CommonResponse.success(res, userData, "User registered successfully");
+    CommonResponse.success(res, userData, "User registered successfully", StatusCodes.CREATED);
 });
 
 export const login: RequestHandler = asyncHandler(async (req: Request, res: Response): Promise<any> => {
