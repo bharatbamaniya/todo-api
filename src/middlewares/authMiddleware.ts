@@ -10,7 +10,7 @@ export interface IUserPayload {
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     try {
         const authHeader = req.headers["authorization"];
-        const token = authHeader && authHeader.split(" ")[1]; // remove Bearer from the auth token
+        const token = authHeader && authHeader.replace("Bearer ", ""); // remove Bearer from the auth token
 
         if (!token) return CommonResponse.error(res, StatusCodes.UNAUTHORIZED, "Unauthorized");
 
