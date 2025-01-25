@@ -16,14 +16,14 @@ app.use("/api/v1", routes);
 app.use(globalErrorHandler);
 
 connectDB()
-  .then(() => {
-    console.log("Connected to DB.");
+    .then(() => {
+        console.log("Connected to DB.");
 
-    app.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
+        app.listen(port, () => {
+            console.log(`Server listening on port ${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error(err);
+        console.error("Failed to connect to DB...");
     });
-  })
-  .catch((err) => {
-    console.error(err);
-    console.error("Failed to connect to DB...");
-  });
