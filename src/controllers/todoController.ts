@@ -5,7 +5,7 @@ import { validateTodoData, validateTodoUpdateData } from "../utils/validation";
 import { NotFoundError, UnauthorizedError } from "../utils/errors";
 import { CommonResponse } from "../utils/commonResponse";
 import todoService from "../services/todoService";
-import {StatusCodes} from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 
 export const createTodo: RequestHandler = asyncHandler(async (req: IUserRequest, res: Response): Promise<any> => {
     validateTodoData(req.body);

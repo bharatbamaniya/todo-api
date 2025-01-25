@@ -28,5 +28,4 @@ connectDB()
         console.error("Failed to connect to DB...");
     });
 
-
 export default app;

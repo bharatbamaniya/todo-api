@@ -4,7 +4,7 @@ import { BadRequestError, UnauthorizedError } from "../utils/errors";
 import { CommonResponse } from "../utils/commonResponse";
 import { validateLoginData, validateSignUpData } from "../utils/validation";
 import asyncHandler from "../utils/asyncHandler";
-import {StatusCodes} from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 
 export const register: RequestHandler = asyncHandler(async (req: Request, res: Response): Promise<any> => {
     validateSignUpData(req.body);

@@ -6,8 +6,8 @@ This API allows users to create, read, update, and delete todo items.
 
 This project was developed with the following environment:
 
-* Node.js: v22.11.0 or higher
-* npm: 10.9.0 or higher
+- Node.js: v22.11.0 or higher
+- npm: 10.9.0 or higher
 
 ## Installation
 
@@ -17,12 +17,13 @@ This project was developed with the following environment:
 4. Start the server: `npm start` or `npm run start:dev` (for development purpose only)
 
 ## API Endpoints
+
 Postman collection is available in root directory.
 
-* **Auth**
+- **Auth**
     - `/api/v1/signup`: Register a new user
     - `/api/v1/login`: Login a user
-* **Todos**
+- **Todos**
     - `/api/v1/todos`:
         - POST: Create a new todo item (requires authentication)
         - GET: Get all todos for the authenticated user (requires authentication)
@@ -37,8 +38,8 @@ Use the JWT token obtained from the login endpoint in the `Authorization` header
 
 ## Technologies Used
 
-* Node.js
-* Express.js
-* Mongoose
-* TypeScript
-* Jest (for testing)
+- Node.js
+- Express.js
+- Mongoose
+- TypeScript
+- Jest (for testing)
