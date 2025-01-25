@@ -33,5 +33,5 @@ export const login: RequestHandler = asyncHandler(async (req: Request, res: Resp
 
     const token = user.generateJwtToken();
 
-    CommonResponse.success(res, {token}, "Logged in successfully");
+    CommonResponse.success(res, { token }, "Logged in successfully");
 });

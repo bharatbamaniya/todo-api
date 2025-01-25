@@ -1,6 +1,6 @@
-import * as express from 'express';
-import {Request} from "express-serve-static-core";
-import {IUserPayload} from "../middlewares/authMiddleware";
+import * as express from "express";
+import { Request } from "express-serve-static-core";
+import { IUserPayload } from "../middlewares/authMiddleware";
 
 declare global {
     namespace Express {

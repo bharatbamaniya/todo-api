@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import {StringValue} from "ms";
-import {ApiError} from "../utils/errors";
-import {config} from 'dotenv';
+import { StringValue } from "ms";
+import { ApiError } from "../utils/errors";
+import { config } from "dotenv";
 config();
 
 export const generateToken = (payload: Record<string, any>) => {
@@ -10,10 +10,10 @@ export const generateToken = (payload: Record<string, any>) => {
     const options: jwt.SignOptions = { expiresIn };
 
     return jwt.sign(payload, secret, options);
-}
+};
 
 export const verifyToken = (token: string) => {
-    if (!token) throw new ApiError('Token not found to verify');
+    if (!token) throw new ApiError("Token not found to verify");
 
-    return jwt.verify(token, process.env.JWT_SECRET as string)
-}
+    return jwt.verify(token, process.env.JWT_SECRET as string);
+};

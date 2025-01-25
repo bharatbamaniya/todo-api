@@ -1,8 +1,8 @@
-import {isEmail, isStrongPassword} from "validator";
-import {BadRequestError} from "./errors";
+import { isEmail, isStrongPassword } from "validator";
+import { BadRequestError } from "./errors";
 
 export const validateSignUpData = (requestBody: Record<string, any>) => {
-    const {email, password} = requestBody;
+    const { email, password } = requestBody;
 
     if (!email) throw new BadRequestError("Email is required");
     if (!password) throw new BadRequestError("Password is required");
@@ -12,7 +12,7 @@ export const validateSignUpData = (requestBody: Record<string, any>) => {
 };
 
 export const validateLoginData = (requestBody: Record<string, any>) => {
-    const {email, password} = requestBody;
+    const { email, password } = requestBody;
 
     if (!email) throw new BadRequestError("Email is required");
     if (!password) throw new BadRequestError("Password is required");
@@ -20,9 +20,8 @@ export const validateLoginData = (requestBody: Record<string, any>) => {
     if (!isEmail(email)) throw new BadRequestError("Email address is not valid");
 };
 
-
 export const validateTodoData = (requestBody: Record<string, any>) => {
-    const {title, description, dueDate} = requestBody;
+    const { title, description, dueDate } = requestBody;
 
     if (!title) throw new BadRequestError("Title is required");
     if (!description) throw new BadRequestError("Description is required");
@@ -38,7 +37,7 @@ export const validateTodoData = (requestBody: Record<string, any>) => {
 };
 
 export const validateTodoUpdateData = (requestBody: Record<string, any>) => {
-    const {dueDate} = requestBody;
+    const { dueDate } = requestBody;
     if (!dueDate) return;
 
     // Validate the dueDate format

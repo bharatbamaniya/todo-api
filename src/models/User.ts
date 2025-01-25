@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { StringValue } from "ms";
-import {generateToken} from "../services/jwtService";
+import { generateToken } from "../services/jwtService";
 
 interface IUser extends Document {
     email: string;
@@ -15,20 +15,23 @@ interface IUser extends Document {
     getUserWithoutSensitiveData(): Omit<IUser, "password">;
 }
 
-const userSchema: Schema = new Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        lowercase: true,
-        index: true,
+const userSchema: Schema = new Schema(
+    {
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true,
+            lowercase: true,
+            index: true,
+        },
+        password: {
+            type: String,
+            required: [true, "Password is required"],
+        },
     },
-    password: {
-        type: String,
-        required: [true, "Password is required"],
-    },
-}, {timestamps: true});
+    { timestamps: true }
+);
 
 userSchema.methods.isPasswordCorrect = function (password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
