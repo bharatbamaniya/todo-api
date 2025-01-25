@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { StringValue } from "ms";
+import {generateToken} from "../services/jwtService";
 
 interface IUser extends Document {
     email: string;
@@ -27,27 +28,21 @@ const userSchema: Schema = new Schema({
         type: String,
         required: [true, "Password is required"],
     },
-});
+}, {timestamps: true});
 
 userSchema.methods.isPasswordCorrect = function (password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.generateJwtToken = function (): string {
-    const secret: jwt.Secret = process.env.JWT_TOKEN_SECRET || "secret";
-    const expiresIn: StringValue = (process.env.JWT_TOKEN_EXPIRY || "1d") as StringValue;
-    const options: jwt.SignOptions = { expiresIn };
+    const payload = {
+        _id: this._id,
+        email: this.email,
+        username: this.username,
+        fullname: this.fullname,
+    };
 
-    return jwt.sign(
-        {
-            _id: this._id,
-            email: this.email,
-            username: this.username,
-            fullname: this.fullname,
-        },
-        secret,
-        options
-    );
+    return generateToken(payload);
 };
 
 userSchema.methods.getUserWithoutSensitiveData = function () {

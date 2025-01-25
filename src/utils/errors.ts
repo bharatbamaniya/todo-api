@@ -26,3 +26,9 @@ export class UnauthorizedError extends CustomError {
         super(message, StatusCodes.UNAUTHORIZED);
     }
 }
+
+export class ApiError extends CustomError {
+    constructor(message: string) {
+        super(message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
