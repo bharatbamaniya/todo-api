@@ -2,6 +2,7 @@ import express from "express";
 import routes from "./routes";
 import { connectDB } from "./config/database";
 import { config } from "dotenv";
+import { globalErrorHandler } from "./utils/asyncHandler";
 
 config();
 
@@ -11,6 +12,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use("/api/v1", routes);
+
+app.use(globalErrorHandler);
 
 connectDB()
   .then(() => {

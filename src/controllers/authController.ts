@@ -1,52 +1,37 @@
-import { Request, Response, RequestHandler } from "express-serve-static-core";
-import { isEmail, isStrongPassword } from "validator";
+import { Request, RequestHandler, Response } from "express-serve-static-core";
 import { createUser, findUserByEmail } from "../services/authService";
+import { BadRequestError, UnauthorizedError } from "../utils/errors";
+import { CommonResponse } from "../utils/commonResponse";
+import { validateLoginData, validateSignUpData } from "../utils/validation";
+import asyncHandler from "../utils/asyncHandler";
 
-export const register: RequestHandler = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { email, password } = req.body;
+export const register: RequestHandler = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+  validateSignUpData(req.body);
+  const { email, password } = req.body;
 
-    if (!email) return res.status(400).send("Email is required");
-    if (!password) return res.status(400).send("Password is required");
+  const isUserExitWithEmail = await findUserByEmail(email);
 
-    if (!isEmail(email)) return res.status(400).send("Email address is not valid");
-    if (!isStrongPassword(password)) return res.status(400).send("Please enter a strong password");
+  if (isUserExitWithEmail) throw new BadRequestError("User already exist with email.");
 
-    const isUserExitWithEmail = await findUserByEmail(email);
+  const createdUser = await createUser(email, password);
+  const userData = createdUser.getUserWithoutSensitiveData();
 
-    if (isUserExitWithEmail) return res.status(400).send("User already exist with email.");
+  CommonResponse.success(res, userData, "User registered successfully");
+});
 
-    await createUser(email, password);
+export const login: RequestHandler = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+  validateLoginData(req.body);
+  const { email, password } = req.body;
 
-    return res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
+  const user = await findUserByEmail(email);
 
-export const login: RequestHandler = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { email, password } = req.body;
+  if (!user) throw new UnauthorizedError("Invalid credentials");
 
-    if (!email) return res.status(400).send("Email is required");
-    if (!password) return res.status(400).send("Password is required");
+  const isPasswordValid = await user.isPasswordCorrect(password);
 
-    if (!isEmail(email)) return res.status(400).send("Email address is not valid");
+  if (!isPasswordValid) throw new UnauthorizedError("Invalid credentials");
 
-    const user = await findUserByEmail(email);
+  const token = user.generateJwtToken();
 
-    if (!user) return res.status(401).json("Invalid credentials");
-
-    const isPasswordValid = await user.isPasswordCorrect(password);
-
-    if (!isPasswordValid) return res.status(401).json({ message: "Invalid credentials" });
-
-    const token = user.generateJwtToken();
-
-    res.status(200).json({ message: "Logged in successfully", token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+  CommonResponse.success(res, token, "Logged in successfully");
+});

@@ -10,6 +10,8 @@ interface IUser extends Document {
   isPasswordCorrect(password: string): Promise<boolean>;
 
   generateJwtToken(): string;
+
+  getUserWithoutSensitiveData(): Omit<IUser, "password">;
 }
 
 const userSchema: Schema = new Schema({
@@ -46,6 +48,13 @@ userSchema.methods.generateJwtToken = function (): string {
     secret,
     options
   );
+};
+
+userSchema.methods.getUserWithoutSensitiveData = function () {
+  const object = this.toObject();
+  delete object.password;
+
+  return object;
 };
 
 const User = mongoose.model<IUser>("User", userSchema);
