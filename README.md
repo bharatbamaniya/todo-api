@@ -43,3 +43,7 @@ Use the JWT token obtained from the login endpoint in the `Authorization` header
 - Mongoose
 - TypeScript
 - Jest (for testing)
+
+## Cron Job:
+
+The project includes a cron job that runs daily at midnight to mark todos with expired due dates as completed.
