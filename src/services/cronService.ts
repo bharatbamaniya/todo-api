@@ -18,7 +18,7 @@ class CronService {
             cron.schedule(cronExpression, async () => {
                 try {
                     await todoService.updateExpiredTodos();
-                    console.log('Cron job executed successfully.');
+                    console.log(new Date(), 'Cron job executed successfully.');
                 } catch (error) {
                     console.error('Error executing cron job:', error);
                 }
