@@ -32,10 +32,29 @@ const deleteTodo = (_id: string, userId: string) => {
     return Todo.deleteOne({ _id, user: userId });
 };
 
+const updateExpiredTodos = async () => {
+    try {
+        const now = new Date();
+        await Todo.updateMany(
+            {
+                dueDate: {$lt: now},
+                completed: false
+            },
+            {
+                $set: {completed: true}
+            }
+        );
+    } catch (error) {
+        console.error('Error updating expired todos:', error);
+        throw error;
+    }
+}
+
 export default {
     createTodo,
     getTodos,
     findTodoByIdAndUserId,
     findTodoById,
     deleteTodo,
+    updateExpiredTodos
 };

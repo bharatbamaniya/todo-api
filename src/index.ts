@@ -1,5 +1,6 @@
 import express from "express";
 import routes from "./routes";
+import CronService from './services/cronService';
 import { connectDB } from "./config/database";
 import { config } from "dotenv";
 import { globalErrorHandler } from "./utils/asyncHandler";
@@ -21,6 +22,7 @@ connectDB()
 
         app.listen(port, () => {
             console.log(`Server listening on port ${port}`);
+            if (process.env.CRON_ENABLED === 'true') CronService.getInstance();
         });
     })
     .catch((err) => {
