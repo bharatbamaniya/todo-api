@@ -11,8 +11,15 @@ This project was developed with the following environment:
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/bharatbamaniya/todo-api.git`
-2. Install dependencies: `npm install`
+1. Clone the repository:
+```
+git clone https://github.com/bharatbamaniya/todo-api.git
+```
+2. Install dependencies: 
+```
+cd todo-api
+npm install
+```
 3. Create a `.env` file with the following variables mentioned in the `sample.env` file
 4. Start the server: `npm start` or `npm run start:dev` (for development purpose only)
 
