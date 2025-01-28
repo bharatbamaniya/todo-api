@@ -10,8 +10,8 @@ const createTodo = (title: string, description: string, dueDate: Date, userId: s
 
 const findTodoByIdAndUserId = (_id: string, userId: string) => {
     if (isInvalidObjectId(_id) || isInvalidObjectId(userId)) throw new ApiError("Invalid objectId");
-
-    return Todo.findById({ _id });
+    
+    return Todo.findById({ _id, user: userId });
 };
 
 const findTodoById = (_id: string) => {

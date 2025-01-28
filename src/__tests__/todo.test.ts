@@ -165,8 +165,8 @@ describe("Todo API Tests", () => {
             dueDate: "2026-01-01",
             user: anotherUser._id?.toString(),
         });
-        const res = await request(app).get(`/api/todos/${createdTodo._id}`).set("Authorization", `Bearer ${token}`);
+        const res = await request(app).get(`/api/v1/todos/${createdTodo._id?.toString()}`).set("Authorization", `Bearer ${token}`);
 
-        expect(res.status).not.toBe(200);
+        expect(res.status).toBe(401);
     });
 });

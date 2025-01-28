@@ -25,9 +25,11 @@ export const getTodo: RequestHandler = asyncHandler(async (req: IUserRequest, re
     const { id } = req.params;
     const userId = req.user?._id;
     if (!userId) throw new UnauthorizedError("UserId not found the the request");
-
-    let todo = await todoService.findTodoByIdAndUserId(id, userId);
+    
+    const todo = await todoService.findTodoById(id);
     if (!todo) throw new NotFoundError("Todo not found");
+
+    if (todo.user.toString() !== userId) throw new UnauthorizedError("You are not authorized to update it");
 
     CommonResponse.success(res, todo, "Data fetched successfully");
 });
